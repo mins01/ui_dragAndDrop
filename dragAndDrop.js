@@ -36,7 +36,7 @@ let dragAndDrop = (function(){
     if (!evt.target.classList.contains('dnd-dropzone')) {return;}
 
     let dropEffect = evt.target.dataset.dropeffect || dragAndDrop.dropEffect || null
-    if(dropEffect) evt.dataTransfer.dropEffect = dropEffect;
+    // if(dropEffect) evt.dataTransfer.dropEffect = dropEffect;
     if(
       dropEffect==="none"
       || evt.dataTransfer.effectAllowed=="none"

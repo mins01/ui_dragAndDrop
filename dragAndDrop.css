@@ -6,7 +6,7 @@
   cursor: grab;
 }
 .dnd-draggable.dnd-draggable-dragging{
-  filter: brightness(1.2);
+  filter: brightness(0.8);
 }
 .dnd-draggable.dnd-draggable-droped{
   opacity: 0.1;
@@ -23,7 +23,7 @@
 .dnd-body-dragging .dnd-dropzone > *{
   pointer-events: none;
 }
-.dnd-dropzone.dnd-dropzone-dragenter{
+.dnd-dropzone.dnd-dropzone-dragenter:not(.dnd-draggable-dragging){
   filter: brightness(1.2);
 }
 

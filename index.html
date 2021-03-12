@@ -42,8 +42,8 @@
 	<script src="dragAndDrop.js"></script>
 	<script>
 	dragAndDrop.ondrop = function(evt,dragNode,dropNode){
-		console.log(evt,dragNode,dropNode);
 		if(dragNode===dropNode){return;}
+		console.log(evt,dragNode,dropNode);
 		//-- 서로 바꾸기
 		let n = dragNode.nextSibling
 		dropNode.parentNode.insertBefore(dragNode, dropNode);
@@ -137,6 +137,12 @@
 	</header>
 	<section class="container">
 		<hr />
+		<div>
+			* dragAndDrop.dropEffect는 data-dropEffect attribute 가 없을 경우 기본설정으로 동작<br />
+			*. dragAndDrop.dropEffect 와 data-dropEffect 가 없는 경우 null로 전체 허용으로 처리<br />
+			*. chrome mobile (88.0.4324.152)에서는 event.dataTransfer.effectAllowed 를 설정해도 강제로 copyMove 로 변경된다.<br />
+			*. 모바일일 경우 effectAllowed 사용에 주의
+		</div>
 		<form>
 			<div class="mb-1 text-center">
 				<button class="btn btn-success" type="button" onclick="dragAndDrop.enable()">dragAndDrop.enable()</button>
@@ -170,10 +176,7 @@
 					<option value="none">none:비허용</option>
 				</select>
 			</div>
-			<div>
-				* dragAndDrop.dropEffect는 data-dropEffect attribute 가 없을 경우 기본설정으로 동작<br />
-				*. dragAndDrop.dropEffect 와 data-dropEffect 가 없는 경우 null로 전체 허용으로 처리
-			</div>
+
 		</form>
 		<hr />
 		<div class="test-grid dnd-drop-animation">
