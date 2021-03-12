@@ -45,8 +45,9 @@
 		console.log(evt,dragNode,dropNode);
 		if(dragNode===dropNode){return;}
 		//-- 서로 바꾸기
-		dropNode.parentNode.insertBefore(dropNode, dragNode);
-		dropNode.parentNode.insertBefore(dragNode, n)
+		let n = dragNode.nextSibling
+		dropNode.parentNode.insertBefore(dragNode, dropNode);
+		dropNode.parentNode.insertBefore(dropNode, n)
 
 		//-- 앞에 위치, 뒤에 위치
 		// let mask = dragNode.compareDocumentPosition(dropNode)
@@ -63,11 +64,11 @@
 		// 	dropNode.parentNode.insertBefore(dragNode, n)
 		// }
 		//
-		if(mask & Node.DOCUMENT_POSITION_PRECEDING){ //이전
-			dropNode.parentNode.insertBefore(dragNode, dropNode);
-		}else if(mask & Node.DOCUMENT_POSITION_FOLLOWING){ //다음
-			dropNode.parentNode.insertBefore(dragNode, dropNode.nextSibling)
-		}
+		// if(mask & Node.DOCUMENT_POSITION_PRECEDING){ //이전
+		// 	dropNode.parentNode.insertBefore(dragNode, dropNode);
+		// }else if(mask & Node.DOCUMENT_POSITION_FOLLOWING){ //다음
+		// 	dropNode.parentNode.insertBefore(dragNode, dropNode.nextSibling)
+		// }
 	}
 	$(function(evt){
 		dragAndDrop.debug = true;
