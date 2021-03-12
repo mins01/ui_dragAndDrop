@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko" >
+<head>
+	<title>dragAndDrop</title>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="shortcut icon" href="http://www.mins01.com/favicon.ico">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<script src="/js/ForGoogle.js"></script>
+	<!-- google analytics -->
+	<script>ForGoogle.analytics()</script>
+
+
+	<!-- jquery 관련 -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+
+
+	<!-- 부트스트랩 4 : IE8지원안됨! -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
+	<!-- vue.js -->
+	<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+
+	<!-- meta og -->
+
+	<meta property="og:title" content="treeList">
+	<meta property="og:description" content="treeList">
+	<meta name="og:image" content="http://www.mins01.com/img/logo.gif">
+	<meta property="og:image:width" content="190">
+	<meta property="og:image:height" content="70" />
+	<meta property="og:site_name" content="treeList" />
+	<meta property="og:type" content="website">
+
+	<!-- //meta og -->
+	<link rel="stylesheet" href="dragAndDrop.css">
+
+	<script src="dragAndDrop.js"></script>
+	<script>
+	dragAndDrop.ondrop = function(evt,dragNode,dropNode){
+		if(dragNode===dropNode){return;}
+		let mask = dragNode.compareDocumentPosition(dropNode)
+		if(mask & Node.DOCUMENT_POSITION_PRECEDING){ //이전
+			dropNode.parentNode.insertBefore(dragNode, dropNode);
+		}else if(mask & Node.DOCUMENT_POSITION_FOLLOWING){ //다음
+			dropNode.parentNode.insertBefore(dragNode, dropNode.nextSibling)
+		}
+	}
+	$(function(evt){
+		dragAndDrop.enable();
+	})
+	</script>
+
+	<style>
+	.test-grid{
+		height: 300px;
+		width: 300px;
+		display: grid;
+		grid-template-columns: 100px 100px 100px;
+		grid-template-rows: 100px 100px 100px;
+		margin: 0 auto;
+	}
+	.test-grid > div{
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid #000;
+		font-size: 12px;
+	}
+	.box-1{
+		background-color: #0cc;
+	}
+	.box-2{
+		background-color: #2cc;
+	}
+	.box-3{
+		background-color: #5cc;
+	}
+	.box-4{
+		background-color: #8cc;
+	}
+	.box-5{
+		background-color: #acc;
+	}
+	.box-6{
+		background-color: #ccc;
+	}
+	.box-7{
+		background-color: #ecc;
+	}
+	.box-8{
+		background-color: #ccf;
+	}
+
+	</style>
+
+</head>
+<body>
+	<header class="container">
+		<h1>dragAndDrop</h1>
+		<h2>draggable attribute 사용</h2>
+	</header>
+	<section class="container">
+		<div class="test-grid dnd-drop-animation">
+			<div class="box-1 dnd-draggable dnd-dropzone" draggable="true">1<br />draggable:O<br />dropzone:O</div>
+			<div class="box-2                           " draggable="false">2<br />draggable:X<br />dropzone:X</div>
+			<div class="box-3               dnd-dropzone" draggable="false">3<br />draggable:X<br />dropzone:O</div>
+			<div class="box-4 dnd-draggable             " draggable="true">4<br />draggable:O<br />dropzone:X</div>
+			<div class="box-5 dnd-draggable dnd-dropzone" draggable="true">5<br />draggable:O<br />dropzone:O</div>
+			<div class="box-6 dnd-draggable dnd-dropzone" draggable="true">6<br />draggable:O<br />dropzone:O</div>
+			<div class="box-7 dnd-draggable dnd-dropzone" draggable="true">7<br />draggable:O<br />dropzone:O</div>
+			<div class="box-8 dnd-draggable dnd-dropzone" draggable="true">8<br />draggable:O<br />dropzone:O</div>
+		</div>
+	</section>
+	<footer class="container">*. 공대여자는 이쁘다.</footer>
+</body>
+</html>

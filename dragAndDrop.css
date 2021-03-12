@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+
+.dnd-draggable{
+  opacity: 1;
+  cursor: grab;
+}
+.dnd-draggable.dnd-draggable-dragging{
+  filter: brightness(1.2);
+}
+.dnd-draggable.dnd-draggable-droped{
+  opacity: 0.1;
+}
+.dnd-body-dragging{
+  cursor: grab;
+}
+.dnd-dropzone{
+}
+.dnd-body-dragging not(.dnd-dropzone){
+  cursor: help;
+
+}
+.dnd-body-dragging .dnd-dropzone > *{
+  pointer-events: none;
+}
+.dnd-dropzone.dnd-dropzone-dragenter{
+  filter: brightness(1.2);
+}
+
+.dnd-drop-animation .dnd-draggable{
+  transition: opacity 1s ease-out;
+}
