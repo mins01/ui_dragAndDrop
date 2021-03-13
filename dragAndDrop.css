@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .dnd-node{
-  
+
 }
 .dnd-draggable{
   opacity: 1;
@@ -24,6 +24,9 @@
 }
 .dnd-body-dragging .dnd-dropzone > *{
   pointer-events: none;
+}
+.dnd-body-dragging .dnd-dropzone {
+  pointer-events:all !important;
 }
 .dnd-dropzone.dnd-dropzone-dragenter:not(.dnd-draggable-dragging){
   filter: brightness(1.2);
