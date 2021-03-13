@@ -4,7 +4,7 @@ let dragAndDrop = (function(){
   let dragstart = function(evt) {
     // 드래그한 요소에 대한 참조 변수
     if (!evt.target.classList.contains('dnd-draggable')) {return;}
-    dragNode = evt.target;
+    dragNode = evt.target.closest('.dnd-node');
     dragNode.classList.add('dnd-draggable-dragging')
     _doc.body.classList.add('dnd-body-dragging')
     evt.dataTransfer.effectAllowed = dragAndDrop.effectAllowed;
@@ -61,24 +61,25 @@ let dragAndDrop = (function(){
     if(!dragNode){return;}
     if(!evt.target.classList.contains('dnd-dropzone')) {return ;}
     evt.preventDefault();
-    let r = dragAndDrop.ondrop(evt,dragNode,evt.target);
+    let dropzone = evt.target;
+    let dropNode = dropzone.closest('.dnd-node');
+    let r = dragAndDrop.ondrop(evt,dropzone,dragNode,dropNode);
     dragNode.classList.remove('dnd-draggable-dragging')
-    evt.target.classList.remove('dnd-dropzone-dragenter')
+    dropzone.classList.remove('dnd-dropzone-dragenter')
     _doc.body.classList.remove('dnd-body-dragging')
-
+    if(!r){return}
     dragNode.classList.add('dnd-draggable-droped')
-    evt.target.classList.add('dnd-draggable-droped')
+    dropNode.classList.add('dnd-draggable-droped')
     setTimeout(
       function(dragNode,dropNode){
         return function(){
           dragNode.classList.remove('dnd-draggable-droped')
           dropNode.classList.remove('dnd-draggable-droped')
         }
-      }(dragNode,evt.target)
-      ,100);
+      }(dragNode,dropNode)
+      ,300);
     dragNode = null;
-    evt.preventDefault();
-    return r;
+    return;
   };
   let _running = false;
   let _doc = null;
@@ -87,8 +88,9 @@ let dragAndDrop = (function(){
     "debug":false ,
     "effectAllowed":null, // 허용 dropEffect : copy,move,link,none,all,copyMove,copyLink,linkMove,uninitialized
     "dropEffect":null, // 기본 dropEffect : copy,move,link,none
-    "ondrop":function(evt,dragNode,dropNode){
-      console.log(evt,dragNode,dropNode);
+    "ondrop":function(evt,dropzone,dragNode,dropNode){
+      console.log(evt,dropzone,dragNode,dropNode);
+      return true;
     },
     "enable":function(doc){
       if(this.running){ if(this.debug){ console.log("dragAndDrop already running."); } return false;}

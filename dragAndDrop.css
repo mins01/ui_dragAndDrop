@@ -1,6 +1,8 @@
 @charset "UTF-8";
 
-
+.dnd-node{
+  
+}
 .dnd-draggable{
   opacity: 1;
   cursor: grab;

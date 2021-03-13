@@ -41,7 +41,7 @@
 
 	<script src="dragAndDrop.js"></script>
 	<script>
-	dragAndDrop.ondrop = function(evt,dragNode,dropNode){
+	dragAndDrop.ondrop = function(evt,dropzone,dragNode,dropNode){
 		if(dragNode===dropNode){return;}
 		console.log(evt,dragNode,dropNode);
 		//-- 서로 바꾸기
@@ -49,26 +49,7 @@
 		dropNode.parentNode.insertBefore(dragNode, dropNode);
 		dropNode.parentNode.insertBefore(dropNode, n)
 
-		//-- 앞에 위치, 뒤에 위치
-		// let mask = dragNode.compareDocumentPosition(dropNode)
-		// console.log(mask);
-
-		// if(mask & Node.DOCUMENT_POSITION_PRECEDING){ //이전
-		// 	let n = dragNode.nextSibling
-		// 	dropNode.parentNode.insertBefore(dragNode, dropNode);
-		// 	dropNode.parentNode.insertBefore(dropNode, n)
-		//
-		// }else if(mask & Node.DOCUMENT_POSITION_FOLLOWING){ //다음
-		// 	let n = dropNode.nextSibling
-		// 	dropNode.parentNode.insertBefore(dropNode, dragNode);
-		// 	dropNode.parentNode.insertBefore(dragNode, n)
-		// }
-		//
-		// if(mask & Node.DOCUMENT_POSITION_PRECEDING){ //이전
-		// 	dropNode.parentNode.insertBefore(dragNode, dropNode);
-		// }else if(mask & Node.DOCUMENT_POSITION_FOLLOWING){ //다음
-		// 	dropNode.parentNode.insertBefore(dragNode, dropNode.nextSibling)
-		// }
+		return true;
 	}
 	$(function(evt){
 		dragAndDrop.debug = true;
@@ -180,24 +161,24 @@
 		</form>
 		<hr />
 		<div class="test-grid dnd-drop-animation">
-			<div class="box-1 dnd-draggable dnd-dropzone" draggable="true" data-dropEffect="copy">1<br />draggable:O<br />dropzone:O<br />dropEffect:copy</div>
-			<div class="box-2                           " draggable="false" data-dropEffect="">2<br />draggable:X<br />dropzone:X<br />dropEffect:</div>
-			<div class="box-3               dnd-dropzone" draggable="false" data-dropEffect="move">3<br />draggable:X<br />dropzone:O<br />dropEffect:move</div>
-			<div class="box-4 dnd-draggable             " draggable="true" data-dropEffect="">4<br />draggable:O<br />dropzone:X<br />dropEffect:</div>
-			<div class="box-5 dnd-draggable dnd-dropzone" draggable="true" data-dropEffect="link">5<br />draggable:O<br />dropzone:O<br />dropEffect:link</div>
-			<div class="box-6 dnd-draggable dnd-dropzone" draggable="true" data-dropEffect="none">6<br />draggable:O<br />dropzone:O<br />dropEffect:none</div>
-			<div class="box-7 dnd-draggable dnd-dropzone" draggable="true" data-dropEffect="">7<br />draggable:O<br />dropzone:O<br />dropEffect:</div>
-			<div class="box-8 dnd-draggable dnd-dropzone" draggable="true" data-dropEffect="">8<br />draggable:O<br />dropzone:O<br />dropEffect:</div>
-			<div class="box-9 dnd-draggable dnd-dropzone" draggable="true" data-dropEffect="">9<br />draggable:O<br />dropzone:O<br />dropEffect:</div>
-			<div class="box-1 dnd-draggable dnd-dropzone" draggable="true" >1<br />draggable:O<br />dropzone:O</div>
-			<div class="box-2                           " draggable="false" >2<br />draggable:X<br />dropzone:X</div>
-			<div class="box-3               dnd-dropzone" draggable="false" >3<br />draggable:X<br />dropzone:O</div>
-			<div class="box-4 dnd-draggable             " draggable="true" >4<br />draggable:O<br />dropzone:X</div>
-			<div class="box-5 dnd-draggable dnd-dropzone" draggable="true" >5<br />draggable:O<br />dropzone:O</div>
-			<div class="box-6 dnd-draggable dnd-dropzone" draggable="true" >6<br />draggable:O<br />dropzone:O</div>
-			<div class="box-7 dnd-draggable dnd-dropzone" draggable="true" >7<br />draggable:O<br />dropzone:O</div>
-			<div class="box-8 dnd-draggable dnd-dropzone" draggable="true" >8<br />draggable:O<br />dropzone:O</div>
-			<div class="box-9 dnd-draggable dnd-dropzone" draggable="true" >9<br />draggable:O<br />dropzone:O</div>
+			<div class="box-1 dnd-node dnd-draggable dnd-dropzone" draggable="true" data-dropEffect="copy">1<br />draggable:O<br />dropzone:O<br />dropEffect:copy</div>
+			<div class="box-2 dnd-node                           " draggable="false" data-dropEffect="">2<br />draggable:X<br />dropzone:X<br />dropEffect:</div>
+			<div class="box-3 dnd-node               dnd-dropzone" draggable="false" data-dropEffect="move">3<br />draggable:X<br />dropzone:O<br />dropEffect:move</div>
+			<div class="box-4 dnd-node dnd-draggable             " draggable="true" data-dropEffect="">4<br />draggable:O<br />dropzone:X<br />dropEffect:</div>
+			<div class="box-5 dnd-node dnd-draggable dnd-dropzone" draggable="true" data-dropEffect="link">5<br />draggable:O<br />dropzone:O<br />dropEffect:link</div>
+			<div class="box-6 dnd-node dnd-draggable dnd-dropzone" draggable="true" data-dropEffect="none">6<br />draggable:O<br />dropzone:O<br />dropEffect:none</div>
+			<div class="box-7 dnd-node dnd-draggable dnd-dropzone" draggable="true" data-dropEffect="">7<br />draggable:O<br />dropzone:O<br />dropEffect:</div>
+			<div class="box-8 dnd-node dnd-draggable dnd-dropzone" draggable="true" data-dropEffect="">8<br />draggable:O<br />dropzone:O<br />dropEffect:</div>
+			<div class="box-9 dnd-node dnd-draggable dnd-dropzone" draggable="true" data-dropEffect="">9<br />draggable:O<br />dropzone:O<br />dropEffect:</div>
+			<div class="box-1 dnd-node dnd-draggable dnd-dropzone" draggable="true" >1<br />draggable:O<br />dropzone:O</div>
+			<div class="box-2 dnd-node                           " draggable="false" >2<br />draggable:X<br />dropzone:X</div>
+			<div class="box-3 dnd-node               dnd-dropzone" draggable="false" >3<br />draggable:X<br />dropzone:O</div>
+			<div class="box-4 dnd-node dnd-draggable             " draggable="true" >4<br />draggable:O<br />dropzone:X</div>
+			<div class="box-5 dnd-node dnd-draggable dnd-dropzone" draggable="true" >5<br />draggable:O<br />dropzone:O</div>
+			<div class="box-6 dnd-node dnd-draggable dnd-dropzone" draggable="true" >6<br />draggable:O<br />dropzone:O</div>
+			<div class="box-7 dnd-node dnd-draggable dnd-dropzone" draggable="true" >7<br />draggable:O<br />dropzone:O</div>
+			<div class="box-8 dnd-node dnd-draggable dnd-dropzone" draggable="true" >8<br />draggable:O<br />dropzone:O</div>
+			<div class="box-9 dnd-node dnd-draggable dnd-dropzone" draggable="true" >9<br />draggable:O<br />dropzone:O</div>
 		</div>
 	</section>
 	<footer class="container">*. 공대여자는 이쁘다.</footer>

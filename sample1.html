@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ko" >
+<head>
+	<title>dragAndDrop sample1</title>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="shortcut icon" href="http://www.mins01.com/favicon.ico">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<script src="/js/ForGoogle.js"></script>
+	<!-- google analytics -->
+	<script>ForGoogle.analytics()</script>
+
+
+	<!-- jquery 관련 -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+
+
+	<!-- 부트스트랩 4 : IE8지원안됨! -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
+	<!-- vue.js -->
+	<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+
+	<!-- meta og -->
+
+	<meta property="og:title" content="treeList">
+	<meta property="og:description" content="treeList">
+	<meta name="og:image" content="http://www.mins01.com/img/logo.gif">
+	<meta property="og:image:width" content="190">
+	<meta property="og:image:height" content="70" />
+	<meta property="og:site_name" content="treeList" />
+	<meta property="og:type" content="website">
+
+	<!-- //meta og -->
+	<link rel="stylesheet" href="dragAndDrop.css">
+
+	<script src="dragAndDrop.js"></script>
+	<script>
+	dragAndDrop.ondrop = function(evt,dropzone,dragNode,dropNode){
+		if(dragNode===dropNode){return;}
+		console.log(evt,dragNode,dropNode);
+		//-- 앞에 위치, 뒤에 위치
+		let mask = dragNode.compareDocumentPosition(dropNode)
+		console.log(mask);
+		if(mask & Node.DOCUMENT_POSITION_CONTAINED_BY){
+			console.log("dropNode의 위치가 dragNode의 자식 노드");
+			return false;
+		}
+		console.log(dropNode);
+		if(dropzone.classList.contains('insert-before')){
+			dropNode.insertAdjacentElement('beforebegin',dragNode); //앞으로 이동
+		}else if(dropzone.classList.contains('insert-after')){
+			dropNode.insertAdjacentElement('afterend',dragNode); //뒤로 이동
+		}else if(dropzone.classList.contains('insert-child')){
+			dropNode.querySelector('.child').append(dragNode); //자식 부분으로 이동
+		}
+		return true;
+	}
+	$(function(evt){
+		dragAndDrop.dropEffect = "move"
+		dragAndDrop.debug = true;
+		dragAndDrop.enable();
+	})
+	</script>
+
+	<style>
+		.area-insert{
+			border:3px solid #abc;
+
+		}
+		.box{
+			text-align: center;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: space-between;
+			border: 1px solid #000;
+			font-size: 12px;
+			padding: 5px;
+		}
+		.box-1{
+			background-color: #0cc;
+		}
+		.box-2{
+			background-color: #9cc;
+		}
+		.box-3{
+			background-color: #fcc;
+		}
+		.box-4{
+			background-color: #c0c;
+		}
+		.box-5{
+			background-color: #c9c;
+		}
+		.box-6{
+			background-color: #cfc;
+		}
+		.box-7{
+			background-color: #cc0;
+		}
+		.box-8{
+			background-color: #cc9;
+		}
+		.box-9{
+			background-color: #ccf;
+		}
+		.child{
+			flex: 1 0 100%;
+			padding:5px;
+			border: 1px dotted #000;
+		}
+	</style>
+
+</head>
+<body>
+	<header class="container mb-3">
+		<h1>dragAndDrop</h1>
+		<h2>draggable attribute 사용</h2>
+		<ul class="list-group">
+			<li class="list-group-item"><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API">https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API</a></li>
+			<li class="list-group-item"><a href="https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/dropEffect">https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/dropEffect</a></li>
+		</ul>
+	</header>
+	<section class="container">
+		<hr />
+		<div>
+			* dragAndDrop.dropEffect는 data-dropEffect attribute 가 없을 경우 기본설정으로 동작<br />
+			*. dragAndDrop.dropEffect 와 data-dropEffect 가 없는 경우 null로 전체 허용으로 처리<br />
+			*. chrome mobile (88.0.4324.152)에서는 event.dataTransfer.effectAllowed 를 설정해도 강제로 copyMove 로 변경된다.<br />
+			*. 모바일일 경우 effectAllowed 사용에 주의
+		</div>
+		<form>
+			<div class="mb-1 text-center">
+				<button class="btn btn-success" type="button" onclick="dragAndDrop.enable()">dragAndDrop.enable()</button>
+				<button class="btn btn-danger" type="button" onclick="dragAndDrop.disable()">dragAndDrop.disable()</button>
+			</div>
+		</form>
+		<hr />
+		<div class="dnd-drop-animation">
+			<div class="dnd-node dnd-draggable box box-1" draggable="true">
+				<div class="dnd-dropzone area-insert insert-before">앞에</div>
+				<div class="dnd-dropzone area-insert insert-child">자식위치에</div>
+				<div class="dnd-dropzone area-insert insert-after">뒤에</div>
+				<div class="child">
+					자식위치
+				</div>
+			</div>
+			<div class="dnd-node dnd-draggable box box-2" draggable="true">
+				<div class="dnd-dropzone area-insert insert-before">앞에</div>
+				<div class="dnd-dropzone area-insert insert-child">자식위치에</div>
+				<div class="dnd-dropzone area-insert insert-after">뒤에</div>
+				<div class="child">
+					자식위치
+				</div>
+			</div>
+			<div class="dnd-node dnd-draggable box box-3" draggable="true">
+				<div class="dnd-dropzone area-insert insert-before">앞에</div>
+				<div class="dnd-dropzone area-insert insert-child">자식위치에</div>
+				<div class="dnd-dropzone area-insert insert-after">뒤에</div>
+				<div class="child">
+					자식위치
+				</div>
+			</div>
+			<div class="dnd-node dnd-draggable box box-4" draggable="true">
+				<div class="dnd-dropzone area-insert insert-before">앞에</div>
+				<div class="dnd-dropzone area-insert insert-child">자식위치에</div>
+				<div class="dnd-dropzone area-insert insert-after">뒤에</div>
+				<div class="child">
+					자식위치
+				</div>
+			</div>
+			<div class="dnd-node dnd-draggable" draggable="true">
+				<div class="dnd-dropzone area-insert insert-before">앞에</div>
+				<div class="dnd-dropzone area-insert insert-child">자식위치에</div>
+				<div class="dnd-dropzone area-insert insert-after">뒤에</div>
+				<div class="child">
+					자식위치
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer class="container">*. 공대여자는 이쁘다.</footer>
+</body>
+</html>
