@@ -23,6 +23,11 @@ let dragAndDrop = (function(){
     // 드롭을 허용하도록 prevetDefault() 호출
     if(!dragNode){return;}
     evt.preventDefault();
+    let mask = dragNode.compareDocumentPosition(evt.target)
+    if(mask & Node.DOCUMENT_POSITION_CONTAINED_BY){
+      evt.dataTransfer.dropEffect  = "none";
+      return;
+    }
     if (evt.target.classList.contains('dnd-dropzone')) {
       let dropEffect = evt.target.dataset.dropeffect || dragAndDrop.dropEffect || null
       if(dropEffect) evt.dataTransfer.dropEffect = dropEffect;
@@ -37,6 +42,11 @@ let dragAndDrop = (function(){
     if(!dragNode){return;}
     if (!evt.target.classList.contains('dnd-dropzone')) {return;}
     evt.preventDefault();
+    let mask = dragNode.compareDocumentPosition(evt.target)
+    if(mask & Node.DOCUMENT_POSITION_CONTAINED_BY){
+      evt.dataTransfer.dropEffect  = "none";
+      return;
+    }
 
     let dropEffect = evt.target.dataset.dropeffect || dragAndDrop.dropEffect || null
     // if(dropEffect) evt.dataTransfer.dropEffect = dropEffect;
