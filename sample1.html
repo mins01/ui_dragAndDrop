@@ -43,7 +43,7 @@
 	<script>
 	dragAndDrop.ondrop = function(evt,dropzone,dragNode,dropNode){
 		if(dragNode===dropNode){return;}
-		console.log(evt,dragNode,dropNode);
+		console.log(evt,dropzone,dragNode,dropNode);
 		//-- 앞에 위치, 뒤에 위치
 		let mask = dragNode.compareDocumentPosition(dropNode)
 		console.log(mask);
