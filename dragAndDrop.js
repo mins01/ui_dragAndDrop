@@ -49,7 +49,7 @@ let dragAndDrop = (function(){
     }
 
     let dropEffect = evt.target.dataset.dropeffect || dragAndDrop.dropEffect || null
-    // if(dropEffect) evt.dataTransfer.dropEffect = dropEffect;
+    if(dropEffect) evt.dataTransfer.dropEffect = dropEffect;
     if(
       dropEffect==="none"
       || evt.dataTransfer.effectAllowed=="none"
