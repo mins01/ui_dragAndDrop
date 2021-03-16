@@ -3,15 +3,16 @@ let dragAndDrop = (function(){
   let dragNode = null;
   let dragstart = function(evt) {
     // 드래그한 요소에 대한 참조 변수
+    if(dragAndDrop.debug){ console.log(evt.type,evt); }
     if (!evt.target.classList.contains('dnd-draggable')) {return;}
 		// https://stackoverflow.com/questions/28408720/jquery-changing-the-dom-on-dragstart-event-fires-dragend-immediately
 		// dragstart 할 때 dom 수정 시 자동으로 dragend 되는 경우 회피
+    dragNode = evt.target.closest('.dnd-node');
+    evt.dataTransfer.setData("text/plain",  "dragAndDrop");
+    evt.dataTransfer.effectAllowed = dragAndDrop.effectAllowed;
 		setTimeout(function(){
-			dragNode = evt.target.closest('.dnd-node');
 	    dragNode.classList.add('dnd-draggable-dragging')
 	    _doc.body.classList.add('dnd-body-dragging')
-	    evt.dataTransfer.effectAllowed = dragAndDrop.effectAllowed;
-	    evt.dataTransfer.setData("text/plain",  "dragAndDrop");
 		},1);
 
     // console.log(dragNode);
@@ -19,6 +20,7 @@ let dragAndDrop = (function(){
   };
   let dragend = function(evt) {
     // 드래그한 요소에 대한 참조 변수
+    if(dragAndDrop.debug){ console.log(evt.type,evt); }
     if(!dragNode){return;}
     dragNode.classList.remove('dnd-draggable-dragging')
     _doc.body.classList.remove('dnd-body-dragging')
@@ -26,6 +28,7 @@ let dragAndDrop = (function(){
   };
   let dragover = function(evt) {
     // 드롭을 허용하도록 prevetDefault() 호출
+    if(dragAndDrop.debug){ console.log(evt.type,evt); }
     if(!dragNode){return;}
     evt.preventDefault();
     let mask = dragNode.compareDocumentPosition(evt.target)
@@ -44,6 +47,7 @@ let dragAndDrop = (function(){
 
   let dragenter = function(evt) {
     // 요소를 드롭하려는 대상 위로 드래그했을 때 대상의 배경색 변경
+    if(dragAndDrop.debug){ console.log(evt.type,evt); }
     if(!dragNode){return;}
     if (!evt.target.classList.contains('dnd-dropzone')) {return;}
     evt.preventDefault();
@@ -54,11 +58,11 @@ let dragAndDrop = (function(){
     }
 
     let dropEffect = evt.target.dataset.dropeffect || dragAndDrop.dropEffect || null
-    if(dropEffect) evt.dataTransfer.dropEffect = dropEffect;
+    // if(dropEffect) evt.dataTransfer.dropEffect = dropEffect;
     if(
       dropEffect==="none"
       || evt.dataTransfer.effectAllowed=="none"
-      || (evt.dataTransfer.effectAllowed!=="all" && dropEffect != null && evt.dataTransfer.effectAllowed.toLowerCase().indexOf(evt.dataTransfer.dropEffect)==-1)
+      || (evt.dataTransfer.effectAllowed!=="all" && dropEffect != null && evt.dataTransfer.effectAllowed.toLowerCase().indexOf(dropEffect)==-1)
     )
     {
       return
@@ -68,6 +72,7 @@ let dragAndDrop = (function(){
   };
   let dragleave = function(evt) {
     // 요소를 드래그하여 드롭하려던 대상으로부터 벗어났을 때 배경색 리셋
+    if(dragAndDrop.debug){ console.log(evt.type,evt); }
     if(!dragNode){return;}
     if (!evt.target.classList.contains('dnd-dropzone')) {return;}
     evt.preventDefault();
@@ -77,6 +82,7 @@ let dragAndDrop = (function(){
 
   let drop = function(evt) {
     // 기본 액션을 막음 (링크 열기같은 것들)
+    if(dragAndDrop.debug){ console.log(evt.type,evt); }
     if(!dragNode){return;}
     if(!evt.target.classList.contains('dnd-dropzone')) {return ;}
     evt.preventDefault();
