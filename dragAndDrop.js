@@ -4,11 +4,16 @@ let dragAndDrop = (function(){
   let dragstart = function(evt) {
     // 드래그한 요소에 대한 참조 변수
     if (!evt.target.classList.contains('dnd-draggable')) {return;}
-    dragNode = evt.target.closest('.dnd-node');
-    dragNode.classList.add('dnd-draggable-dragging')
-    _doc.body.classList.add('dnd-body-dragging')
-    evt.dataTransfer.effectAllowed = dragAndDrop.effectAllowed;
-    evt.dataTransfer.setData("text/plain",  "dragAndDrop");
+		// https://stackoverflow.com/questions/28408720/jquery-changing-the-dom-on-dragstart-event-fires-dragend-immediately
+		// dragstart 할 때 dom 수정 시 자동으로 dragend 되는 경우 회피
+		setTimeout(function(){
+			dragNode = evt.target.closest('.dnd-node');
+	    dragNode.classList.add('dnd-draggable-dragging')
+	    _doc.body.classList.add('dnd-body-dragging')
+	    evt.dataTransfer.effectAllowed = dragAndDrop.effectAllowed;
+	    evt.dataTransfer.setData("text/plain",  "dragAndDrop");
+		},1);
+
     // console.log(dragNode);
 
   };
